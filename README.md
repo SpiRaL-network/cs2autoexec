@@ -21,15 +21,13 @@ into your CS2 config folder.
 
 +exec autoexec.cfg
 
-or you can also type in the console: "exec autoexec"
-
 ---
 
 ## Usage
 
 ### Autoexec
 
-Automatically loaded at game startup (+exec autoexec.cfg) or when typed "exec autoexec" in the console
+Automatically loaded at game startup (+exec autoexec.cfg)
 
 Contains:
 - Movement binds (AZERTY via scancodes)
@@ -54,13 +52,9 @@ Contains:
 
 ### Practice Mode
 
-Load manually in-game:
-
-Type in the console → "exec pracc.cfg"
-
-Or using the configured bind:
-
 F11 → Load practice mode
+
+Or load manually in-game: Type in the console → "exec pracc.cfg"
 
 Contains:
 - Practice server setup (cheats, economy, round settings)
