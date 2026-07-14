@@ -176,6 +176,11 @@ its scancode, and the game default. Edit any bind and re-run `exec autoexec.cfg`
 *Chaque ligne de `autoexec.cfg` est commentée. Modifie un bind et refais
 `exec autoexec.cfg`.*
 
+Want to bind a different key? See **[SCANCODES.md](./SCANCODES.md)** — a full cheat
+sheet listing the scancode of every key (AZERTY + QWERTY).
+*Envie de binder une autre touche ? Vois **[SCANCODES.md](./SCANCODES.md)** — la
+fiche complète du scancode de chaque touche (AZERTY + QWERTY).*
+
 ## ⚠️ Disclaimer / Avertissement
 
 > **EN** — Personal, unofficial config, **not affiliated with Valve Corporation**.
