@@ -1,172 +1,197 @@
 # CS2 Autoexec & Practice Config
 
-Clean, fully-commented **autoexec** and **practice** configs for Counter-Strike 2
-— AZERTY by default (switchable to QWERTY), tuned for competitive play and
-efficient training.
+A clean, **fully-commented** autoexec + practice config for Counter-Strike 2.
+**One universal file works on both AZERTY and QWERTY.**
 
-Configs CS2 **autoexec** et **practice**, propres et entièrement commentées —
-AZERTY par défaut (convertible en QWERTY), pensées pour le jeu compétitif et
-l'entraînement.
+Une config **autoexec + practice** propre et **entièrement commentée** pour
+Counter-Strike 2. **Un seul fichier universel fonctionne en AZERTY et en QWERTY.**
 
-**[🇬🇧 English](#-english) · [🇫🇷 Français](#-français)**
+**[🇬🇧 English](#-english) · [🇫🇷 Français](#-français) · [⌨️ Key bindings](#️-key-bindings--raccourcis)**
+
+---
+
+## ✨ Why one config works on both layouts
+
+The binds use **scancodes** (physical key positions), not letters. `scancode26`
+is always the **physical key** where QWERTY prints `W` and AZERTY prints `Z` — the
+same key you press for "forward" on either keyboard. So **ZQSD (AZERTY)** and
+**WASD (QWERTY)** are literally the same physical keys, and this single config is
+**layout-independent**. You don't need separate AZERTY/QWERTY versions.
+
+The comments inside the files show both labels — e.g. `key: Z (AZERTY) / W (QWERTY)`
+— wherever the printed letter differs.
 
 ---
 
 ## 🇬🇧 English
 
-### Installation
+### Option 1 — Automatic install (easiest)
 
-1. Open your CS2 config folder:
+1. **Download** this repo (green **Code** button → **Download ZIP**) and unzip it.
+2. Double-click **`install.bat`**.
+   It finds your CS2 `cfg` folder automatically and copies `autoexec.cfg` and
+   `pracc.cfg` into it, then prints the next steps.
+
+### Option 2 — Manual install
+
+1. Open your CS2 `cfg` folder:
    ```
    ...\Steam\steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg
    ```
-2. Copy **`autoexec.cfg`** and **`pracc.cfg`** into it.
-3. In Steam: right-click **CS2 → Properties → Launch Options**, and add:
-   ```
-   +exec autoexec.cfg
-   ```
+   (In CS2: right-click the game → **Manage → Browse local files**, then go into
+   `game\csgo\cfg`.)
+2. Copy **`autoexec.cfg`** and **`pracc.cfg`** into that folder.
 
-### What's inside
+### Enable the developer console (required)
 
-**`autoexec.cfg`** — loaded automatically at startup. Contains movement, mouse,
-grenade, and utility binds (AZERTY scancodes), plus network tuning, viewmodel &
-sensitivity, low-latency sound, fastswitch, HUD, radar, crosshair, scope,
-grenade-crosshair, damage-prediction and telemetry settings. **Every line is
-commented** with the bound key, its scancode, and the game default value.
+**CS2 → Settings → Game → Enable Developer Console = Yes.** The console opens with
+the **`~`** key (or **`²`/`F9`** with this config).
 
-**`pracc.cfg`** — a ready-to-use practice server: infinite money & buy-anywhere,
-instant respawn, infinite ammo, grenade trajectory & bullet impacts, bhop /
-auto-bhop, god mode, bots removed, warmup skipped.
+### Loading the config — two ways
 
-### Default binds (AZERTY)
+| | How | When to use |
+|---|---|---|
+| **A. Every launch** *(recommended)* | Steam → right-click CS2 → **Properties → Launch Options**, add: `+exec autoexec.cfg` | The config is re-applied automatically every time you start the game. |
+| **B. Once per session** | Open the console and type: `exec autoexec.cfg` | Applies it **once**. Handy when you want to tweak settings live afterwards — your manual changes **won't be reset** on restart (because it isn't re-executed on launch). |
 
-| Key | Action |
-|-----|--------|
-| `Z` `S` `Q` `D` | Move forward / back / left / right |
-| `Space` / `Ctrl` / `Shift` | Jump / Crouch / Walk |
-| `Mouse1` / `Mouse2` | Fire / Alt-fire |
-| `Mouse Wheel` | Jump |
-| `Mouse4` / `Mouse5` | Drop / Last weapon |
-| `A` / `F` / `V` / `Mouse3` | Flash / Smoke / HE / Molotov |
-| `E` / `R` / `G` | Use / Reload / Inspect |
-| `C` | Fastswitch (knife quick-swap) |
-| `T` / `Alt` | Voice / Ping |
-| `F1` / `F2` | Autobuy / Rebuy |
-| `F3` / `F4` | Vote YES / NO |
-| `F9` / `F11` | Console / Load practice mode (`pracc.cfg`) |
+> In short: **`+exec`** in launch options = automatic every time. **`exec`** in the
+> console = one-shot, so you keep any manual tweaks until you run it again.
 
-**Practice binds:** `F5` Noclip · `F6` Rethrow last grenade · `F7` Place bot at
-crosshair. Load practice mode with **`F11`**, or type `exec pracc.cfg` in the
-console.
+### Practice mode
 
-### Switch AZERTY → QWERTY
+Load the practice server in-game with **`F11`**, or type `exec pracc.cfg` in the
+console. It gives you infinite money & buy-anywhere, instant respawn, infinite
+ammo, grenade trajectories & impacts, bhop/auto-bhop, god mode, and removes bots.
 
-In `autoexec.cfg`, section **[1] MOVEMENT**, change:
+Practice binds: **`F5`** Noclip · **`F6`** Rethrow last grenade · **`F7`** Place bot
+at crosshair.
 
-```
-bind scancode26 "+forward"  ->  bind scancode29 "+forward"
-bind scancode4  "+left"     ->  bind scancode20 "+left"
-```
+### Is it VAC-safe?
 
-### Is it safe? (VAC)
-
-These are **plain text config files** — console commands only. No code, no
-injection, no external software, nothing that touches the game process. The
-`sv_cheats`-based commands in `pracc.cfg` **only work on your own local practice
-server** and have no effect on VAC-secured / official matchmaking servers. Using
-config files is permitted by Valve. See the [disclaimer](#disclaimer--avertissement).
+Yes. These are **plain text config files** — only standard console commands, no
+code, no injection, no external software. The `sv_cheats` commands in `pracc.cfg`
+**only work on your own local practice server** and do nothing on VAC / official
+servers. Using config files is allowed by Valve. See the
+[disclaimer](#-disclaimer--avertissement).
 
 ---
 
 ## 🇫🇷 Français
 
-### Installation
+### Option 1 — Installation automatique (le plus simple)
 
-1. Ouvre ton dossier de config CS2 :
+1. **Télécharge** ce repo (bouton vert **Code** → **Download ZIP**) et décompresse-le.
+2. Double-clique sur **`install.bat`**.
+   Il trouve automatiquement ton dossier `cfg` de CS2, y copie `autoexec.cfg` et
+   `pracc.cfg`, puis affiche les étapes suivantes.
+
+### Option 2 — Installation manuelle
+
+1. Ouvre ton dossier `cfg` de CS2 :
    ```
    ...\Steam\steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg
    ```
+   (Dans CS2 : clic droit sur le jeu → **Gérer → Parcourir les fichiers locaux**,
+   puis va dans `game\csgo\cfg`.)
 2. Copies-y **`autoexec.cfg`** et **`pracc.cfg`**.
-3. Dans Steam : clic droit sur **CS2 → Propriétés → Options de lancement**, ajoute :
-   ```
-   +exec autoexec.cfg
-   ```
 
-### Contenu
+### Activer la console développeur (obligatoire)
 
-**`autoexec.cfg`** — chargée automatiquement au démarrage. Contient les binds de
-déplacement, souris, grenades et utilitaires (scancodes AZERTY), ainsi que les
-réglages réseau, viewmodel & sensibilité, son basse latence, fastswitch, HUD,
-radar, viseur, viseur de grenade, prédiction des dégâts et télémétrie. **Chaque
-ligne est commentée** avec la touche assignée, son scancode et la valeur par
-défaut du jeu.
+**CS2 → Paramètres → Jeu → Activer la console développeur = Oui.** La console
+s'ouvre avec la touche **`~`** (ou **`²`/`F9`** avec cette config).
 
-**`pracc.cfg`** — un serveur d'entraînement prêt à l'emploi : argent infini &
-achat partout, réapparition instantanée, munitions infinies, trajectoire des
-grenades & impacts de balles, bhop / auto-bhop, mode dieu, bots retirés, warmup
-sauté.
+### Charger la config — deux méthodes
 
-### Binds par défaut (AZERTY)
+| | Comment | Quand l'utiliser |
+|---|---|---|
+| **A. À chaque lancement** *(recommandé)* | Steam → clic droit CS2 → **Propriétés → Options de lancement**, ajoute : `+exec autoexec.cfg` | La config est ré-appliquée automatiquement à chaque démarrage. |
+| **B. Une seule fois** | Ouvre la console et tape : `exec autoexec.cfg` | L'applique **une fois**. Pratique si tu veux ensuite bidouiller des réglages en jeu — tes modifs manuelles **ne seront pas remises à zéro** au redémarrage (puisqu'elle n'est pas ré-exécutée au lancement). |
 
-| Touche | Action |
-|--------|--------|
-| `Z` `S` `Q` `D` | Avancer / reculer / gauche / droite |
-| `Espace` / `Ctrl` / `Maj` | Sauter / s'accroupir / marcher |
-| `Souris1` / `Souris2` | Tirer / tir alternatif |
-| `Molette` | Sauter |
-| `Souris4` / `Souris5` | Lâcher / arme précédente |
-| `A` / `F` / `V` / `Souris3` | Flash / Smoke / HE / Molotov |
-| `E` / `R` / `G` | Utiliser / recharger / inspecter |
-| `C` | Fastswitch (sortie rapide du couteau) |
-| `T` / `Alt` | Voix / ping |
-| `F1` / `F2` | Achat auto / rachat |
-| `F3` / `F4` | Vote OUI / NON |
-| `F9` / `F11` | Console / charger le mode practice (`pracc.cfg`) |
+> En résumé : **`+exec`** dans les options de lancement = automatique à chaque
+> fois. **`exec`** dans la console = ponctuel, donc tu gardes tes modifs manuelles
+> jusqu'à ce que tu la relances.
 
-**Binds d'entraînement :** `F5` Noclip · `F6` Relancer la dernière grenade ·
-`F7` Placer un bot sous le viseur. Charge le mode practice avec **`F11`**, ou
-tape `exec pracc.cfg` dans la console.
+### Mode entraînement
 
-### Passer d'AZERTY à QWERTY
+Charge le serveur d'entraînement en jeu avec **`F11`**, ou tape `exec pracc.cfg`
+dans la console. Il donne argent infini & achat partout, réapparition instantanée,
+munitions infinies, trajectoires & impacts de grenades, bhop/auto-bhop, mode dieu,
+et retire les bots.
 
-Dans `autoexec.cfg`, section **[1] MOVEMENT**, remplace :
+Binds d'entraînement : **`F5`** Noclip · **`F6`** Relancer la dernière grenade ·
+**`F7`** Placer un bot sous le viseur.
 
-```
-bind scancode26 "+forward"  ->  bind scancode29 "+forward"
-bind scancode4  "+left"     ->  bind scancode20 "+left"
-```
+### Est-ce sûr pour le VAC ?
 
-### Est-ce sûr ? (VAC)
-
-Ce sont de **simples fichiers texte** — uniquement des commandes console. Aucun
-code, aucune injection, aucun logiciel externe, rien qui touche au processus du
-jeu. Les commandes `sv_cheats` de `pracc.cfg` **ne fonctionnent que sur ton
-propre serveur d'entraînement local** et n'ont aucun effet sur les serveurs
-sécurisés VAC / matchmaking officiel. L'utilisation de fichiers de config est
-autorisée par Valve. Voir l'[avertissement](#disclaimer--avertissement).
+Oui. Ce sont de **simples fichiers texte** — uniquement des commandes console
+standard, aucun code, aucune injection, aucun logiciel externe. Les commandes
+`sv_cheats` de `pracc.cfg` **ne fonctionnent que sur ton serveur local** et n'ont
+aucun effet en VAC / matchmaking officiel. Les fichiers de config sont autorisés
+par Valve. Voir l'[avertissement](#-disclaimer--avertissement).
 
 ---
 
-## Disclaimer / Avertissement
+## ⌨️ Key bindings — Raccourcis
 
-> **EN** — This project is a personal, unofficial configuration. It is **not
-> affiliated with, endorsed by, or sponsored by Valve Corporation**.
-> "Counter-Strike" is a trademark of Valve. The configs contain only standard,
-> documented console commands; they are provided **"as is"**, without warranty,
-> and you use them at your own discretion. Cheat commands are intended for
-> **offline / local practice only**.
+Same physical keys on both layouts — only the printed letter differs.
+*Mêmes touches physiques sur les deux dispositions — seule la lettre imprimée change.*
+
+| Action | AZERTY | QWERTY | Scancode |
+|--------|:------:|:------:|:--------:|
+| Move forward / Avancer | `Z` | `W` | 26 |
+| Move back / Reculer | `S` | `S` | 22 |
+| Strafe left / Gauche | `Q` | `A` | 4 |
+| Strafe right / Droite | `D` | `D` | 7 |
+| Jump / Sauter | `Space` + `Wheel` | `Space` + `Wheel` | 44 |
+| Crouch / S'accroupir | `Ctrl` | `Ctrl` | 224 |
+| Walk / Marcher | `Shift` | `Shift` | 225 |
+| Fire / Alt-fire | `Mouse1` / `Mouse2` | `Mouse1` / `Mouse2` | — |
+| Drop / Last weapon | `Mouse4` / `Mouse5` | `Mouse4` / `Mouse5` | — |
+| Flash | `A` | `Q` | 20 |
+| Smoke | `F` | `F` | 9 |
+| HE grenade | `V` | `V` | 25 |
+| Molotov | `Mouse3` | `Mouse3` | — |
+| Use / Utiliser | `E` | `E` | 8 |
+| Reload / Recharger | `R` | `R` | 21 |
+| Inspect / Inspecter | `G` | `G` | 10 |
+| Buy menu | `B` | `B` | 5 |
+| Team menu | `,` | `M` | 16 |
+| Voice / Voix | `T` | `T` | 23 |
+| Ping | `Alt` | `Alt` | 226 |
+| Switch hands | `X` | `X` | 27 |
+| Fastswitch (knife) | `C` | `C` | 6 |
+| Autobuy / Rebuy | `F1` / `F2` | `F1` / `F2` | 58 / 59 |
+| Vote YES / NO | `F3` / `F4` | `F3` / `F4` | 60 / 61 |
+| Console | `F9` | `F9` | 66 |
+| Load practice | `F11` | `F11` | 68 |
+| **Practice:** Noclip / Rethrow / Place bot | `F5` / `F6` / `F7` | `F5` / `F6` / `F7` | 62 / 63 / 64 |
+
+> Note: the radio key uses `scancode100`, an **ISO-keyboard** key (`<` / `\`) that
+> does not exist on US-ANSI QWERTY keyboards — rebind it if yours lacks it.
+
+## Customizing / Personnaliser
+
+Every line in `autoexec.cfg` is commented with its action, the key (both labels),
+its scancode, and the game default. Edit any bind and re-run `exec autoexec.cfg`.
+*Chaque ligne de `autoexec.cfg` est commentée. Modifie un bind et refais
+`exec autoexec.cfg`.*
+
+## ⚠️ Disclaimer / Avertissement
+
+> **EN** — Personal, unofficial config, **not affiliated with Valve Corporation**.
+> "Counter-Strike" is a trademark of Valve. Only standard documented console
+> commands are used; provided **"as is"**, without warranty. `sv_cheats` commands
+> are for **offline / local practice only**.
 >
-> **FR** — Ce projet est une configuration personnelle et non officielle. Il
-> n'est **ni affilié, ni approuvé, ni sponsorisé par Valve Corporation**.
-> « Counter-Strike » est une marque de Valve. Les configs ne contiennent que des
-> commandes console standard et documentées ; elles sont fournies **« telles
-> quelles »**, sans garantie, et tu les utilises à ta seule discrétion. Les
-> commandes de triche sont destinées **à l'entraînement local / hors ligne
-> uniquement**.
+> **FR** — Config personnelle et non officielle, **non affiliée à Valve
+> Corporation**. « Counter-Strike » est une marque de Valve. Seules des commandes
+> console standard et documentées sont utilisées ; fournie **« telle quelle »**,
+> sans garantie. Les commandes `sv_cheats` sont réservées à l'**entraînement local
+> / hors ligne**.
 
 ## License / Licence
 
-Released under the **MIT License** — see [LICENSE](./LICENSE).
+**MIT** — see [LICENSE](./LICENSE).
 
 ## Author / Auteur
 
