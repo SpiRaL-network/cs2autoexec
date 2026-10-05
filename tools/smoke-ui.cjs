@@ -14,6 +14,7 @@ async function main(){
     {name:'cs2_video.txt',text:'"video.cfg" { "Version" "17" "VendorID" "4318" "DeviceID" "123" "setting.defaultres" "1280" "setting.defaultresheight" "960" "setting.refreshrate_numerator" "240000" "setting.refreshrate_denominator" "1000" "setting.fullscreen" "0" "setting.nowindowborder" "0" "setting.monitor_index" "0" "setting.mat_vsync" "0" "setting.msaa_samples" "4" "setting.videocfg_shadow_quality" "0" "setting.videocfg_dynamic_shadows" "1" "setting.videocfg_texture_detail" "1" "setting.r_texturefilteringquality" "3" "setting.shaderquality" "0" "setting.videocfg_particle_detail" "0" "setting.videocfg_ao_detail" "2" "setting.videocfg_hdr_detail" "-1" "setting.videocfg_fsr_detail" "0" "setting.r_low_latency" "0" }'}
   ];
   for(const f of files)await fs.writeFile(path.join(account,f.name),f.text);
+  const target=path.join(steam,'userdata','100001','730','local','cfg');await fs.mkdir(target,{recursive:true});for(const f of files)await fs.writeFile(path.join(target,f.name),f.text);
   await fs.writeFile(path.join(game,'autoexec.cfg'),'// previous personal file\r\n');
   const profilePath=path.join(fixture,'input.cs2profile');await fs.writeFile(profilePath,JSON.stringify(core.createProfile(files,'Mon profil CS2')));
   const userData=path.join(fixture,'app-data');await fs.mkdir(userData);
@@ -29,13 +30,20 @@ async function main(){
     await page.selectOption('#language','fr');
     assert.equal(await page.evaluate(()=>typeof require),'undefined');
     // Native pickers are stubbed only in this synthetic fixture test.
-    await app.evaluate(({dialog},paths)=>{let n=0;dialog.showOpenDialog=async()=>({canceled:false,filePaths:[paths[n++]||paths.at(-1)]});dialog.showSaveDialog=async()=>({canceled:false,filePath:paths[2]});dialog.showMessageBox=async()=>({response:1});},[steam,profilePath,path.join(fixture,'saved.cs2profile'),path.join(fixture,'exports')]);
-    await page.click('#choose-steam');await page.waitForFunction(()=>document.querySelector('#account').options[0].text.includes('100000'));
+    await app.evaluate(({dialog},paths)=>{let n=0;dialog.showOpenDialog=async()=>({canceled:false,filePaths:[paths[n++]||paths[2]]});dialog.showSaveDialog=async()=>({canceled:false,filePath:paths[3]});dialog.showMessageBox=async()=>({response:1});},[steam,profilePath,path.join(fixture,'exports'),path.join(fixture,'saved.cs2profile')]);
+    await page.click('#choose-steam');await page.waitForFunction(()=>document.querySelector('#account').options.length===2);
+    const sourceId=await page.locator('#account option').filter({hasText:'100000'}).getAttribute('value'),targetId=await page.locator('#target-account option').filter({hasText:'100001'}).getAttribute('value');
+    await page.selectOption('#account',sourceId);
+    assert.equal(await page.locator('#player-view').isDisabled(),true);assert.equal(await page.locator('#use-view').isDisabled(),true);
     await page.click('#capture');await page.waitForSelector('#editor:not([hidden])');assert.equal(await page.locator('#source-count').textContent(),'5');
+    assert.equal(await page.locator('#source-panel').isVisible(),false);assert.equal(await page.locator('.inspector').isVisible(),false);
+    await page.fill('#search','a filter to discard on opening');await page.check('#modified-only');await page.click('#source-view');
     await page.click('#import-profile');await page.waitForSelector('#editor:not([hidden])');
     await page.waitForFunction(()=>document.getElementById('profile-title').textContent==='Mon profil CS2');
     console.log('UI: profile imported');
     assert.equal(await page.locator('#profile-title').textContent(),'Mon profil CS2');
+    assert.equal(await page.locator('#search').inputValue(),'');assert.equal(await page.locator('#modified-only').isChecked(),false);
+    await page.click('#profile-options');await page.fill('#profile-name','Profil de test');await page.locator('#modal button').filter({hasText:'Appliquer'}).click();await page.waitForFunction(()=>document.getElementById('profile-title').textContent==='Profil de test');
     await page.locator('#tabs button').filter({hasText:'Clavier'}).click();
     const sens=page.locator('[data-key="sensitivity"] input.numeric');await sens.fill('1.77');await sens.press('Tab');await page.waitForFunction(()=>!document.getElementById('dirty').hidden);
     assert.equal(await sens.inputValue(),'1.77');
@@ -45,15 +53,22 @@ async function main(){
     await page.click('#save-profile');await page.waitForFunction(()=>document.getElementById('status').textContent.includes('sauvegardé'));
     console.log('UI: profile edited and saved');
     const saved=JSON.parse(await fs.readFile(path.join(fixture,'saved.cs2profile'),'utf8'));core.validate(saved);assert.equal(core.describe(saved).rows.find(r=>r.key==='sensitivity').value,'1.77');
+    await page.click('#continue-use');assert.equal(await page.locator('#player-panel').isVisible(),false);assert.equal(await page.locator('#use-profile').textContent(),'Profil de test');await page.selectOption('#target-account',targetId);
     await page.click('#preview');await page.waitForSelector('#modal[open]');assert.match(await page.locator('#modal pre').first().textContent(),/hud_scaling\s+"0.9"/);assert.doesNotMatch(await page.locator('#modal pre').first().textContent(),/hud_scaling\$3/);await page.click('#close-modal');
-    await page.locator('#tabs button').filter({hasText:'Audio'}).click();await page.locator('[data-key="snd_tensecondwarning_volume"] .setting-label').click();assert.match(await page.locator('#inspect-description').textContent(),/gain audio/);
-    await page.selectOption('#language','en');assert.equal(await page.locator('#capture').textContent(),'Capture settings');
+    await page.click('#export');await page.waitForFunction(()=>document.getElementById('status').textContent.includes('Pack exporté'));
+    const bundles=await fs.readdir(path.join(fixture,'exports'));assert.equal(bundles.length,1);assert.match(await fs.readFile(path.join(fixture,'exports',bundles[0],'autoexec.cfg'),'utf8'),/^sensitivity\s+"1.77"/m);
+    await page.click('#back-edit');await page.locator('#tabs button').filter({hasText:'Audio'}).click();await page.click('#toggle-details');await page.locator('[data-key="snd_tensecondwarning_volume"] .setting-label').click();assert.match(await page.locator('#inspect-description').textContent(),/gain audio/);assert.equal(await page.locator('.inspector').isVisible(),true);await page.click('#toggle-details');
+    await page.selectOption('#language','en');assert.equal(await page.locator('#capture').textContent(),'Capture settings');await page.click('#use-view');
+    assert.equal(await page.locator('#account').inputValue(),sourceId);assert.equal(await page.locator('#target-account').inputValue(),targetId);
     await page.click('#install-preview');await page.locator('#modal select').selectOption('snapshot');await page.locator('#modal button').filter({hasText:'Preview files'}).click();await page.waitForSelector('#confirm-install:not([hidden])');
     assert.equal(await page.locator('.install-file').count(),3);await page.click('#confirm-install');await page.waitForFunction(()=>document.getElementById('status').textContent.includes('Installed files: 3'));
     console.log('UI: synthetic installation completed');
     assert.match(await fs.readFile(path.join(game,'autoexec.cfg'),'utf8'),/^sensitivity\s+"1.77"/m);
+    assert.match(await fs.readFile(path.join(target,'cs2_user_convars_0_slot0.vcfg'),'utf8'),/"sensitivity"\s+"1.77"/);
+    assert.equal(await fs.readFile(path.join(account,'cs2_user_convars_0_slot0.vcfg'),'utf8'),files[1].text);
     await page.click('#rollback');await page.waitForFunction(()=>document.getElementById('status').textContent.includes('Previous files restored'));
     assert.equal(await fs.readFile(path.join(game,'autoexec.cfg'),'utf8'),'// previous personal file\r\n');
+    assert.equal(await fs.readFile(path.join(target,'cs2_user_convars_0_slot0.vcfg'),'utf8'),files[1].text);
     await page.click('#server-view');await page.locator('#server-kinds button').filter({hasText:'Bunnyhop'}).click();assert.match(await page.locator('#server-code').textContent(),/sv_autobunnyhopping\s+"1"/);
     await page.locator('#server-kinds button').filter({hasText:'KZ'}).click();assert.match(await page.locator('#server-note').textContent(),/Do not apply both/);
     assert.deepEqual(errors,[]);assert.deepEqual(network,[]);

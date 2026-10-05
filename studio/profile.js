@@ -1,6 +1,6 @@
 'use strict';
 const crypto = require('node:crypto');
-const {readKeyValues} = require('../editor/vcfg');
+const {readKeyValues} = require('./keyvalues');
 const catalog = require('./catalog.json');
 const allowed = /^(cs2_machine_convars\.vcfg|cs2_user_(convars|keys)_\d+_slot\d+\.vcfg|cs2_video\.txt|original-autoexec\.cfg)$/;
 const displayVideo=new Set(['setting.monitor_index','setting.defaultres','setting.defaultresheight','setting.refreshrate_numerator','setting.refreshrate_denominator','setting.fullscreen','setting.coop_fullscreen','setting.nowindowborder','setting.high_dpi','setting.aspectratiomode']);
@@ -12,7 +12,7 @@ const cleanName = name => name.replace(/\$\d+$/,'');
 const textOf = file => Buffer.from(file.content,'base64').toString('utf8');
 const rowId = (file,group,key) => JSON.stringify([file,group,key]);
 function createProfile(files, name='My CS2 setup') {
-  const profile={format:'cs2-profile-studio',schema:1,appVersion:'3.0.0',name,createdAt:new Date().toISOString(),files:files.map(f=>{
+  const profile={format:'cs2-profile-studio',schema:1,appVersion:'3.1.0',name,createdAt:new Date().toISOString(),files:files.map(f=>{
     const bytes=Buffer.isBuffer(f.bytes)?f.bytes:Buffer.from(f.text,'utf8');
     return {name:f.name,content:bytes.toString('base64'),sha256:sha(bytes)};
   }),changes:{},rebindings:{},activeSlot:'0_slot0'};

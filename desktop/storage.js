@@ -5,7 +5,7 @@ const crypto=require('node:crypto');
 const {promisify}=require('node:util');
 const execFile=promisify(require('node:child_process').execFile);
 const profileCore=require('../studio/profile');
-const {readKeyValues}=require('../editor/vcfg');
+const {readKeyValues}=require('../studio/keyvalues');
 async function exists(file){try{await fs.access(file);return true;}catch{return false;}}
 async function assertGameClosed(listProcesses=execFile,platform=process.platform){
   if(platform!=='win32')throw Error('Automatic installation currently supports Windows / Installation automatique : Windows');

@@ -14,7 +14,6 @@ jobs:
         with:
           node-version: '22'
       - run: node --test tests/*.test.js
-      - run: node tools/sync-editor.js --check
       - if: runner.os == 'Windows'
         run: npm ci
       - if: runner.os == 'Windows'

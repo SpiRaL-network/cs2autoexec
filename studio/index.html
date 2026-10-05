@@ -9,55 +9,68 @@
 </head>
 <body>
   <header class="app-header">
-    <div class="brand"><div class="mark">CS<span>2</span></div><div><b>PROFILE STUDIO</b><small data-t="tagline">Vos réglages. Partout.</small></div></div>
-    <div class="header-right"><span class="offline" data-t="offline">LOCAL · HORS LIGNE</span><select id="language" aria-label="Language"><option value="fr">FR</option><option value="en">EN</option></select><span class="version">3.0</span></div>
+    <div class="brand"><div class="mark">CS<span>2</span></div><div><b>PROFILE STUDIO</b><small data-t="tagline"></small></div></div>
+    <div class="header-right"><span class="offline"><i></i><span data-t="offline"></span></span><select id="language" aria-label="Language"><option value="fr">FR</option><option value="en">EN</option></select><span class="version">3.1</span></div>
   </header>
-  <div class="workspace">
-    <aside>
-      <div class="aside-heading" data-t="workspace">ESPACE DE TRAVAIL</div>
-      <button class="side-button active" id="player-view"><span>◈</span><span data-t="player">Profil joueur</span></button>
-      <button class="side-button" id="server-view"><span>⌘</span><span data-t="servers">Serveurs & entraînement</span></button>
-      <div class="side-divider"></div>
-      <div class="aside-heading" data-t="source">SOURCE STEAM</div>
-      <label class="small-label" for="account" data-t="account">Compte à capturer</label><select id="account"></select>
-      <label class="small-label" for="installation" data-t="installation">Installation CS2</label><select id="installation"></select>
-      <button id="capture" class="primary full" data-t="capture">Capturer les réglages</button>
-      <div class="quiet-actions"><button id="detect" data-t="detect">Actualiser</button><button id="choose-steam" data-t="steamFolder">Dossier Steam…</button></div>
-      <p class="micro" data-t="captureHint">Réglez le jeu, puis fermez CS2 avant la capture.</p>
-      <div class="side-divider"></div>
-      <div class="aside-heading" data-t="library">FICHIERS & PROFILS</div>
-      <button class="side-button" id="import-profile"><span>↗</span><span data-t="openProfile">Ouvrir un profil</span></button>
-      <button class="side-button" id="import-sources"><span>＋</span><span data-t="importSources">Importer les sources</span></button>
-      <button class="side-button" id="save-profile" disabled><span>↓</span><span data-t="save">Sauvegarder le profil</span></button>
-      <button class="side-button" id="rollback"><span>↶</span><span data-t="rollback">Annuler l’installation</span></button>
-      <div class="aside-footer"><span class="dot"></span><span data-t="privacy">Aucune donnée envoyée.<br>Aucun compte requis.</span></div>
-    </aside>
-    <main>
-      <section id="player-panel">
-        <div class="page-heading"><div><div class="eyebrow" data-t="eyebrow">CONFIGURATION PERSONNELLE</div><h1 id="profile-title" data-t="title">Votre setup, sauvegardé.</h1><p id="profile-subtitle" data-t="subtitle">Configurez dans CS2. Capturez ici. Emportez vos réglages.</p></div><span id="dirty" class="pill" hidden data-t="unsaved">Modifications non sauvegardées</span></div>
-        <div id="empty" class="welcome">
-          <div class="welcome-number">01 / 03</div><h2 data-t="welcomeTitle">Commencez avec vos vrais réglages.</h2><p data-t="welcomeText">L’application lit les fichiers enregistrés par le jeu : vidéo, audio, touches, viseur, HUD et options avancées. Elle construit un profil réutilisable et un autoexec à partir de votre configuration.</p>
-          <div class="steps"><div><b>01</b><strong data-t="step1">Configurez CS2</strong><p data-t="step1text">Vos préférences restent la référence.</p></div><div><b>02</b><strong data-t="step2">Capturez le profil</strong><p data-t="step2text">Les sources complètes sont conservées.</p></div><div><b>03</b><strong data-t="step3">Emportez votre setup</strong><p data-t="step3text">Exportez, modifiez, restaurez.</p></div></div>
-          <p class="micro" data-t="scope">L’autoexec réapplique les réglages à son exécution. Il ne verrouille pas les menus. Les données liées au compte ou au matériel sont conservées séparément.</p>
+  <nav class="workflow" aria-label="Workspace">
+    <div class="profile-workflow">
+      <button id="source-view" class="active"><span class="step-number">1</span><span data-t="sourceStep"></span></button>
+      <button id="player-view" disabled><span class="step-number">2</span><span data-t="editStep"></span></button>
+      <button id="use-view" disabled><span class="step-number">3</span><span data-t="useStep"></span></button>
+    </div>
+    <button id="server-view"><span data-t="servers"></span><span aria-hidden="true">↗</span></button>
+  </nav>
+  <main>
+    <section id="source-panel" class="content-page">
+      <div class="page-heading"><div><div class="eyebrow" data-t="sourceEyebrow"></div><h1 data-t="welcomeTitle"></h1><p data-t="sourceIntro"></p></div></div>
+      <div class="source-grid">
+        <div class="card capture-card">
+          <div class="card-heading"><span class="card-symbol" aria-hidden="true">↓</span><div><h2 data-t="captureTitle"></h2><p data-t="captureHint"></p></div></div>
+          <label class="field" for="account"><span data-t="account"></span><select id="account"></select></label>
+          <label class="field" for="installation"><span data-t="installation"></span><select id="installation"></select></label>
+          <button id="capture" class="primary full" data-t="capture"></button>
+          <div class="quiet-actions"><button id="detect" data-t="detect"></button><button id="choose-steam" data-t="steamFolder"></button></div>
         </div>
-        <div id="editor" hidden>
-          <div class="profile-bar"><label><span data-t="profileName">Nom du profil</span><input id="profile-name" maxlength="120"></label><label><span data-t="slot">Emplacement joueur</span><select id="slot"></select></label><div class="stats"><b id="setting-count">0</b><span data-t="savedValues">valeurs enregistrées</span></div><div class="stats"><b id="source-count">0</b><span data-t="sourceFiles">fichiers sources</span></div></div>
-          <nav id="tabs" class="tabs" aria-label="Settings categories"></nav>
-          <nav id="sections" class="sections" aria-label="Settings sections"></nav>
-          <div class="toolbar"><input id="search" type="search" placeholder="Rechercher un réglage, une commande…" aria-label="Search"><label><input id="modified-only" type="checkbox"><span data-t="modifiedOnly">Modifiés uniquement</span></label><span id="visible-count" class="micro"></span></div>
-          <div class="editor-grid"><div class="settings-panel"><div id="rows"></div></div><div class="inspector"><div class="eyebrow" data-t="inspection">DÉTAIL DU RÉGLAGE</div><h3 id="inspect-title" data-t="selectSetting">Sélectionnez un réglage</h3><p id="inspect-description" class="micro" data-t="inspectHint">Les valeurs proviennent des fichiers CS2. Les unités moteur sont conservées.</p><div id="inspect-data"></div><div id="crosshair-preview" hidden><div class="crosshair-scene"><i id="crosshair-shape">＋</i></div><p class="micro" data-t="crosshairHint">Aperçu schématique. Le rendu exact dépend du jeu.</p></div><div class="side-divider"></div><p class="micro" data-t="sourceHint">Les données non exportables restent dans le profil et les fichiers sources. Les valeurs vidéo et audio brutes évitent les conversions approximatives.</p></div></div>
-          <details class="source-summary"><summary id="source-summary-label"></summary><div id="source-list"></div><div id="warnings"></div></details>
-          <footer class="actions"><button id="reset" data-t="reset">Annuler les modifications</button><div><button id="preview" data-t="preview">Voir l’autoexec</button><button id="export" data-t="export">Exporter le pack</button><button id="install-preview" class="primary" data-t="install">Installer…</button></div></footer>
+        <div class="source-alternatives">
+          <div class="card"><div class="card-heading"><span class="card-symbol" aria-hidden="true">↗</span><div><h2 data-t="openTitle"></h2><p data-t="openHint"></p></div></div><button id="import-profile" data-t="openProfile"></button></div>
+          <div class="card"><div class="card-heading"><span class="card-symbol" aria-hidden="true">＋</span><div><h2 data-t="manualTitle"></h2><p data-t="manualHint"></p></div></div><button id="import-sources" data-t="importSources"></button></div>
         </div>
-      </section>
-      <section id="server-panel" hidden>
-        <div class="page-heading"><div><div class="eyebrow" data-t="serverEyebrow">VOTRE SERVEUR, VOS RÈGLES</div><h1 data-t="serverTitle">Préparer une session.</h1><p data-t="serverSubtitle">Des configurations serveur séparées de vos préférences joueur.</p></div></div>
-        <div class="server-grid"><div><div id="server-kinds" class="server-kinds"></div><p id="server-note" class="callout"></p><div id="server-rows"></div></div><div class="server-output"><div class="eyebrow" data-t="generatedConfig">CONFIGURATION GÉNÉRÉE</div><pre id="server-code"></pre><button id="server-export" class="primary full" data-t="exportServer">Exporter le pack serveur</button><p class="micro" data-t="serverLimits">Valeurs initiales modifiables, commandes vérifiées le 05/10/2026. Test en jeu à effectuer. Les chronomètres, checkpoints et modes communautaires exigent des cartes et plugins adaptés.</p><a href="https://github.com/KZGlobalTeam/cs2kz-metamod" data-t="kzLink">Documentation CS2KZ</a></div></div>
-      </section>
-      <div id="status" role="status" aria-live="polite"></div>
-    </main>
-  </div>
-  <dialog id="modal"><div class="modal-heading"><h2 id="modal-title"></h2><button id="close-modal" aria-label="Close">✕</button></div><div id="modal-content"></div><div class="modal-actions"><button id="cancel-modal" data-t="close">Fermer</button><button id="confirm-install" class="primary" hidden data-t="applyInstall">Installer et sauvegarder l’existant</button></div></dialog>
+      </div>
+      <div class="source-footnote"><span class="privacy"><i class="dot"></i><span data-t="privacy"></span></span><span data-t="sourceCoverage"></span></div>
+    </section>
+    <section id="player-panel" hidden>
+      <div id="editor" hidden>
+        <div class="profile-heading">
+          <div><div class="eyebrow" data-t="eyebrow"></div><h1 id="profile-title"></h1><span id="profile-subtitle" class="micro"></span></div>
+          <div class="profile-controls"><span id="dirty" class="pill" hidden data-t="unsaved"></span><button id="profile-options" data-t="profileOptions"></button><button id="save-profile" disabled data-t="save"></button><button id="continue-use" class="primary" data-t="continueUse"></button></div>
+        </div>
+        <div class="editor-layout">
+          <aside class="category-nav"><div class="eyebrow" data-t="settingsHeading"></div><nav id="tabs" aria-label="Settings categories"></nav><div class="profile-summary"><strong id="setting-count">0</strong><span data-t="savedValues"></span><span><b id="source-count">0</b> <span data-t="sourceFiles"></span></span></div><button id="reset" class="quiet" data-t="reset"></button></aside>
+          <div class="editor-content">
+            <div class="category-heading"><h2 id="category-title"></h2><span id="visible-count" class="micro"></span></div>
+            <div class="toolbar"><input id="search" type="search" aria-label="Search"><label><input id="modified-only" type="checkbox"><span data-t="modifiedOnly"></span></label><button id="toggle-details" aria-pressed="false" data-t="details"></button></div>
+            <nav id="sections" class="sections" aria-label="Settings sections"></nav>
+            <div class="editor-grid"><div class="settings-panel"><div id="rows"></div></div><div class="inspector" hidden><div class="eyebrow" data-t="inspection"></div><h3 id="inspect-title" data-t="selectSetting"></h3><p id="inspect-description" class="micro" data-t="inspectHint"></p><div id="inspect-data"></div><p class="micro" data-t="sourceHint"></p></div></div>
+            <details class="source-summary"><summary id="source-summary-label"></summary><div id="source-list"></div><div id="warnings"></div></details>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="use-panel" class="content-page" hidden>
+      <div class="page-heading"><div><div class="eyebrow" data-t="useEyebrow"></div><h1 data-t="useTitle"></h1><p id="use-profile" class="profile-context"></p></div><button id="back-edit" data-t="backEdit"></button></div>
+      <div class="delivery-grid">
+        <div class="card"><div class="card-heading"><span class="card-symbol" aria-hidden="true">↓</span><div><h2 data-t="exportTitle"></h2><p data-t="exportHint"></p></div></div><ul class="bundle-contents"><li><strong>autoexec.cfg</strong><span data-t="bundleAutoexec"></span></li><li><strong>cs2_video.txt</strong><span data-t="bundleVideo"></span></li><li><strong>profile.cs2profile</strong><span data-t="bundleProfile"></span></li></ul><div class="card-actions"><button id="preview" data-t="preview"></button><button id="export" class="primary" data-t="export"></button></div><p class="micro" data-t="scope"></p></div>
+        <div class="card"><div class="card-heading"><span class="card-symbol" aria-hidden="true">↳</span><div><h2 data-t="installTitle"></h2><p data-t="installTargetHint"></p></div></div><label class="field" for="target-account"><span data-t="targetAccount"></span><select id="target-account"></select></label><label class="field" for="target-installation"><span data-t="installation"></span><select id="target-installation"></select></label><button id="install-preview" class="primary full" data-t="install"></button><p class="micro" data-t="backupHint"></p><div class="restore-action"><button id="rollback" class="quiet" data-t="rollback"></button></div></div>
+      </div>
+    </section>
+    <section id="server-panel" class="content-page" hidden>
+      <div class="page-heading"><div><div class="eyebrow" data-t="serverEyebrow"></div><h1 data-t="serverTitle"></h1><p data-t="serverSubtitle"></p></div><button id="server-export" class="primary" data-t="exportServer"></button></div>
+      <div id="server-kinds" class="server-kinds"></div><p id="server-note" class="callout"></p>
+      <div class="server-grid"><div class="card"><h2 data-t="serverSettings"></h2><div id="server-rows"></div></div><div class="server-output"><div class="eyebrow" data-t="generatedConfig"></div><pre id="server-code"></pre><p class="micro" data-t="serverLimits"></p><a href="https://github.com/KZGlobalTeam/cs2kz-metamod" data-t="kzLink"></a></div></div>
+    </section>
+  </main>
+  <div id="status" role="status" aria-live="polite"></div>
+  <dialog id="modal"><div class="modal-heading"><h2 id="modal-title"></h2><button id="close-modal" aria-label="Close">✕</button></div><div id="modal-content"></div><div class="modal-actions"><button id="cancel-modal" data-t="close"></button><button id="confirm-install" class="primary" hidden data-t="applyInstall"></button></div></dialog>
   <script src="app.js"></script>
 </body>
 </html>

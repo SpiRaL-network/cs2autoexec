@@ -8,10 +8,10 @@
 
 ## Démarrer
 
-1. Téléchargez `CS2-Profile-Studio-3.0.0-windows-x64.zip`, extrayez **tout le dossier**, puis lancez `CS2 Profile Studio.exe`. Windows 10/11, x64 ; aucune installation de Node.js nécessaire.
+1. Téléchargez `CS2-Profile-Studio-3.1.0-windows-x64.zip`, extrayez **tout le dossier**, puis lancez `CS2 Profile Studio.exe`. Windows 10/11, x64 ; aucune installation de Node.js nécessaire.
 2. Faites vos réglages dans CS2, puis **fermez le jeu** pour qu’ils soient enregistrés.
 3. Choisissez le compte Steam et l’installation, puis **Capturer les réglages**. Si la détection échoue, sélectionnez le dossier Steam ou importez les sources manuellement.
-4. Parcourez **Vidéo, Audio, Jeu, Clavier / souris, Viseur et lunettes**, ainsi que **Données avancées**. Sauvegardez un `.cs2profile` ou exportez le pack.
+4. Dans **Modifier les réglages**, parcourez **Vidéo, Audio, Jeu, Clavier / souris, Viseur et lunettes**, ainsi que **Données avancées**. Sauvegardez un `.cs2profile`, puis passez à **Exporter ou installer**.
 
 L’application fonctionne localement, sans connexion à un compte, télémétrie, stockage distant ni mises à jour automatiques. L’exécutable n’est pas signé. Aucun droit administrateur n’est nécessaire si vos dossiers Steam sont accessibles en écriture.
 
@@ -32,7 +32,7 @@ L’autoexec du dossier du jeu est conservé sous `original-autoexec.cfg`. Ses d
 
 Recherchez un nom/une commande, filtrez par catégorie/section ou par modifications. Modifiez les valeurs et listes de choix disponibles, réattribuez les touches avec leurs noms CS2 ou scancodes. Les doublons et les valeurs numériques invalides bloquent l’export. Consultez source, valeur brute et valeur capturée ; annulez une modification ou toutes. Sources originales et modifications sont séparées, avec empreintes de contrôle.
 
-Les unités moteur sont conservées. Les réglages audio marqués **GAIN** utilisent le gain non linéaire sauvegardé ; aucune conversion approximative en pourcentage du menu n’est appliquée. Valeurs vidéo non prises en charge et identifiants matériels restent visibles. L’aperçu du viseur est schématique.
+Les unités moteur sont conservées. Les réglages audio marqués **Gain sauvegardé · unités moteur** utilisent le gain non linéaire sauvegardé ; aucune conversion approximative en pourcentage du menu n’est appliquée. Valeurs vidéo non prises en charge et identifiants matériels restent visibles. Activez **Détails techniques** pour examiner les commandes, sources et valeurs capturées. **Options du profil** regroupe le nom et le choix d’emplacement joueur.
 
 ## Exporter
 
@@ -50,14 +50,14 @@ Pour charger l’autoexec manuellement, placez-le dans `game/csgo/cfg`, activez 
 
 ## Installer et restaurer
 
-Sélectionnez le compte et l’installation **de destination**, puis **Installer…** :
+Ouvrez **Exporter ou installer**, sélectionnez le compte et l’installation **de destination**, puis **Installer…** :
 
 | Mode | Comportement |
 | :--- | :--- |
 | Réglages portables | Installe l’autoexec et fusionne les préférences graphiques reconnues dans la vidéo cible. Conserve GPU, réglages matériels, écran, résolution et fréquence de destination. Une option transfère aussi l’affichage. Lancez CS2 une première fois sur un nouveau compte pour créer son fichier vidéo. |
 | Sources complètes | Installe tous les VCFG/vidéo capturés et modifiés, plus l’autoexec. Prévu pour la même machine ; inclut les préférences propres au compte et au matériel. |
 
-Les deux modes affichent les fichiers cibles, sauvegardent l’existant et s’arrêtent si un fichier a changé depuis l’aperçu. **Annuler l’installation** restaure la dernière sauvegarde, y compris en supprimant les fichiers créés par cette installation. L’opération s’arrête si les fichiers installés ont changé ensuite. Sauvegardes : `%APPDATA%/cs2-profile-studio/backups`.
+Les deux modes affichent les fichiers cibles, sauvegardent l’existant et s’arrêtent si un fichier a changé depuis l’aperçu. **Annuler la dernière installation** restaure la dernière sauvegarde, y compris en supprimant les fichiers créés par cette installation. L’opération s’arrête si les fichiers installés ont changé ensuite. Sauvegardes : `%APPDATA%/cs2-profile-studio/backups`.
 
 Fermez CS2. Steam Cloud peut proposer une autre copie au lancement suivant : vérifiez les conflits. L’autoexec du dossier du jeu est partagé par les comptes utilisant cette installation. Le mode portable ne restaure pas toutes les préférences réservées aux sources ; gardez le profil complet pour les récupérer.
 
@@ -85,6 +85,5 @@ Les tests couvrent sources intégrales, suffixes, modifications, emplacements jo
 
 Métadonnées de menus/commandes : [GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2/tree/master/game/csgo/pak01_dir/panorama/layout/settings). Aucun visuel du jeu ni XML original du menu n’est distribué. Actualisation : [tools/generate-catalog.py](tools/generate-catalog.py). Les mises à jour du jeu peuvent faire évoluer fichiers et commandes.
 
-Les anciens presets, le script Windows et l’éditeur de navigateur restent disponibles : [guide historique](docs/legacy-fr.md), [`autoexec.cfg`](autoexec.cfg), [`pracc.cfg`](pracc.cfg), [`editor/index.html`](editor/index.html), [référence des touches](SCANCODES.md). Ils sont indépendants des profils capturés par l’application.
 
 Projet indépendant de SpiRaL sous [licence MIT](LICENSE), sans affiliation avec Valve. Les notices des composants tiers sont incluses dans la distribution Windows.

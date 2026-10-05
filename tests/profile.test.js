@@ -6,7 +6,7 @@ const os=require('node:os');
 const path=require('node:path');
 const core=require('../studio/profile');
 const storage=require('../desktop/storage');
-const {readKeyValues}=require('../editor/vcfg');
+const {readKeyValues}=require('../studio/keyvalues');
 const servers=require('../studio/servers');
 function sources(){return [
   {name:'cs2_machine_convars.vcfg',text:'\uFEFF"config"\r\n{\r\n "convars" { "fps_max" "350" "volume" "0.5" "sound_device_override" "device-A" "unknown_future_setting" "a\\\\b" "nested" { "x" "y" } }\r\n}\r\n'},

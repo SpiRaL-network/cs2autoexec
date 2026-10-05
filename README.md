@@ -8,10 +8,10 @@
 
 ## Get started
 
-1. Download `CS2-Profile-Studio-3.0.0-windows-x64.zip`, extract the **whole folder**, and run `CS2 Profile Studio.exe`. Windows 10/11, x64; no Node.js installation needed.
+1. Download `CS2-Profile-Studio-3.1.0-windows-x64.zip`, extract the **whole folder**, and run `CS2 Profile Studio.exe`. Windows 10/11, x64; no Node.js installation needed.
 2. Configure your settings in CS2, then **close the game** so they are saved.
 3. Select the Steam account and game installation, then **Capture settings**. If detection fails, choose the Steam folder or import the source files manually.
-4. Review **Video, Audio, Game, Keyboard / mouse, Crosshair & scope**, and **Advanced data**. Save a `.cs2profile` or export a bundle.
+4. In **Edit settings**, review **Video, Audio, Game, Keyboard / mouse, Crosshair & scope**, and **Advanced data**. Save a `.cs2profile` or export a bundle.
 
 Everything works locally, without login, telemetry, cloud storage or automatic updates. The executable is unsigned. Admin rights are unnecessary when your Steam folders are writable.
 
@@ -32,7 +32,7 @@ The existing game `autoexec.cfg` is captured as `original-autoexec.cfg`. Its sin
 
 Search by name/command, filter by category/section or modifications, edit values and supported enumerations, and reassign CS2 key names or scancodes. Duplicate keys and invalid numeric edits block export. Inspect source, raw and captured values; reset one row or all edits. Original bytes and edits are stored separately with checksums.
 
-Engine units are preserved. Audio values marked **GAIN** use the saved nonlinear gain; no approximate menu-percentage conversion is applied. Unsupported video values and device IDs stay visible as source data. The crosshair preview is schematic.
+Engine units are preserved. Audio values labelled **Saved gain · engine units** use the saved nonlinear gain; no approximate menu-percentage conversion is applied. Unsupported video values and device IDs stay visible as source data. Enable **Technical details** to inspect commands, sources and captured values. **Profile options** contains the profile name and player-slot selection.
 
 ## Export
 
@@ -50,7 +50,7 @@ For manual loading, copy the autoexec to `game/csgo/cfg`, enable the CS2 develop
 
 ## Install and restore
 
-Select the **destination** account and game installation, then **Install…**:
+Open **Export or install**, select the **destination** account and game installation, then **Install…**:
 
 | Mode | Behavior |
 | :--- | :--- |
@@ -85,6 +85,5 @@ Tests cover complete source preservation, versioned keys, edits, slots, rebindin
 
 Menu/control metadata is derived from [GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2/tree/master/game/csgo/pak01_dir/panorama/layout/settings) and its command dump. No original game artwork or menu XML is shipped. Refresh the catalogue with [tools/generate-catalog.py](tools/generate-catalog.py). Commands and file formats can change with game updates.
 
-Original presets, script installer and browser editor remain available: [legacy guide](docs/legacy-en.md), [`autoexec.cfg`](autoexec.cfg), [`pracc.cfg`](pracc.cfg), [`editor/index.html`](editor/index.html), [key reference](SCANCODES.md). They are independent of captured desktop profiles.
 
 Independent project by SpiRaL, [MIT license](LICENSE), not affiliated with Valve. Third-party runtime notices are included in the Windows distribution.
