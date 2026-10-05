@@ -1,12 +1,15 @@
-# CS2 Scancode Cheat Sheet — Aide-mémoire des scancodes
+# CS2 key reference / Référence des touches
 
-**EN** — In CS2, `bind scancodeXX "command"` binds a **physical key position**, so
-it works the same on every keyboard layout. This sheet lists the scancode for each
-key. To rebind something, find the key below and use its scancode.
+**EN** — `bind scancodeXX "command"` assigns a physical key position. The tables
+show US QWERTY and French AZERTY labels; other layouts can print different labels
+or omit keys. Find a position below and use its scancode, or edit it in the
+[offline configuration editor](editor/index.html).
 
-**FR** — Dans CS2, `bind scancodeXX "commande"` lie une **position physique de
-touche**, donc identique sur toutes les dispositions. Cette fiche donne le scancode
-de chaque touche. Pour rebinder, trouve la touche ci-dessous et utilise son scancode.
+**FR** — `bind scancodeXX "commande"` attribue une position physique de touche.
+Les tableaux indiquent les inscriptions QWERTY américain et AZERTY français ;
+d’autres dispositions peuvent les modifier ou omettre certaines touches.
+Choisissez un scancode ci-dessous ou utilisez le
+[tableau de configuration hors ligne](editor/index.html).
 
 Example / Exemple:
 ```
@@ -171,14 +174,17 @@ Mouse buttons are **not** scancodes; bind them by name:
 
 ## How to verify a scancode — Vérifier un scancode
 
-If you're not sure which scancode a key is, the safest checks:
+On a local map, note the key’s existing binding (`bind scancode54` in the console),
+then temporarily bind a console message and press the key:
 
-1. Use an online converter such as **totalcsgo.com/binds/converter** (paste the key).
-2. Or bind a test command and press the key in game to confirm it triggers, e.g.:
-   ```
-   bind scancode54 "say TEST"
-   ```
+```text
+bind scancode54 "echo SCANCODE_TEST"
+```
 
-*Si tu n'es pas sûr du scancode d'une touche : utilise un convertisseur en ligne
-(totalcsgo.com/binds/converter), ou binde une commande de test et appuie sur la
-touche en jeu pour confirmer.*
+Restore the previous binding afterwards, or reload your configuration if it defines
+that key. This test prints in the console and does not send a chat message.
+
+Sur une carte locale, notez le raccourci existant (`bind scancode54` dans la console),
+puis attribuez temporairement le message ci-dessus et appuyez sur la touche.
+Rétablissez ensuite le raccourci précédent, ou rechargez votre configuration si
+elle définit cette touche. Le test écrit dans la console sans envoyer de message.
