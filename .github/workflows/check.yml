@@ -1,4 +1,4 @@
-name: Check configuration editor
+name: Check CS2 Profile Studio
 on: [push, pull_request]
 permissions:
   contents: read
@@ -15,3 +15,7 @@ jobs:
           node-version: '22'
       - run: node --test tests/*.test.js
       - run: node tools/sync-editor.js --check
+      - if: runner.os == 'Windows'
+        run: npm ci
+      - if: runner.os == 'Windows'
+        run: npm run test:ui

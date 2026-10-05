@@ -22,7 +22,7 @@ function save(relative, content) {
 save('editor/configs.js', '// Generated from the root .cfg files. Run node tools/sync-editor.js.\nconst CONFIG_SOURCES = ' + JSON.stringify(sources, null, 2).replaceAll('<', '\\u003c').replaceAll('\u2028', '\\u2028').replaceAll('\u2029', '\\u2029') + ';\n');
 const selected = ['sensitivity', 'zoom_sensitivity_ratio', 'mm_dedicated_search_maxping', 'hud_scaling', 'cl_radar_scale', 'cl_hud_telemetry_frametime_poor'];
 const escape = value => value.replaceAll('|', '\\|').replaceAll('\n', ' ');
-for (const [file, language] of [['README.md', 0], ['README.fr.md', 1]]) {
+for (const [file, language] of [['docs/legacy-en.md', 0], ['docs/legacy-fr.md', 1]]) {
   let readme = fs.readFileSync(path.join(root, file), 'utf8');
   const defaults = [language ? '| Réglage du profil | Valeur | Commande |' : '| Profile setting | Value | Command |', '| :--- | :--- | :--- |'];
   for (const command of selected) {

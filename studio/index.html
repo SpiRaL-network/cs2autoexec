@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>CS2 Profile Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand"><div class="mark">CS<span>2</span></div><div><b>PROFILE STUDIO</b><small data-t="tagline">Vos réglages. Partout.</small></div></div>
+    <div class="header-right"><span class="offline" data-t="offline">LOCAL · HORS LIGNE</span><select id="language" aria-label="Language"><option value="fr">FR</option><option value="en">EN</option></select><span class="version">3.0</span></div>
+  </header>
+  <div class="workspace">
+    <aside>
+      <div class="aside-heading" data-t="workspace">ESPACE DE TRAVAIL</div>
+      <button class="side-button active" id="player-view"><span>◈</span><span data-t="player">Profil joueur</span></button>
+      <button class="side-button" id="server-view"><span>⌘</span><span data-t="servers">Serveurs & entraînement</span></button>
+      <div class="side-divider"></div>
+      <div class="aside-heading" data-t="source">SOURCE STEAM</div>
+      <label class="small-label" for="account" data-t="account">Compte à capturer</label><select id="account"></select>
+      <label class="small-label" for="installation" data-t="installation">Installation CS2</label><select id="installation"></select>
+      <button id="capture" class="primary full" data-t="capture">Capturer les réglages</button>
+      <div class="quiet-actions"><button id="detect" data-t="detect">Actualiser</button><button id="choose-steam" data-t="steamFolder">Dossier Steam…</button></div>
+      <p class="micro" data-t="captureHint">Réglez le jeu, puis fermez CS2 avant la capture.</p>
+      <div class="side-divider"></div>
+      <div class="aside-heading" data-t="library">FICHIERS & PROFILS</div>
+      <button class="side-button" id="import-profile"><span>↗</span><span data-t="openProfile">Ouvrir un profil</span></button>
+      <button class="side-button" id="import-sources"><span>＋</span><span data-t="importSources">Importer les sources</span></button>
+      <button class="side-button" id="save-profile" disabled><span>↓</span><span data-t="save">Sauvegarder le profil</span></button>
+      <button class="side-button" id="rollback"><span>↶</span><span data-t="rollback">Annuler l’installation</span></button>
+      <div class="aside-footer"><span class="dot"></span><span data-t="privacy">Aucune donnée envoyée.<br>Aucun compte requis.</span></div>
+    </aside>
+    <main>
+      <section id="player-panel">
+        <div class="page-heading"><div><div class="eyebrow" data-t="eyebrow">CONFIGURATION PERSONNELLE</div><h1 id="profile-title" data-t="title">Votre setup, sauvegardé.</h1><p id="profile-subtitle" data-t="subtitle">Configurez dans CS2. Capturez ici. Emportez vos réglages.</p></div><span id="dirty" class="pill" hidden data-t="unsaved">Modifications non sauvegardées</span></div>
+        <div id="empty" class="welcome">
+          <div class="welcome-number">01 / 03</div><h2 data-t="welcomeTitle">Commencez avec vos vrais réglages.</h2><p data-t="welcomeText">L’application lit les fichiers enregistrés par le jeu : vidéo, audio, touches, viseur, HUD et options avancées. Elle construit un profil réutilisable et un autoexec à partir de votre configuration.</p>
+          <div class="steps"><div><b>01</b><strong data-t="step1">Configurez CS2</strong><p data-t="step1text">Vos préférences restent la référence.</p></div><div><b>02</b><strong data-t="step2">Capturez le profil</strong><p data-t="step2text">Les sources complètes sont conservées.</p></div><div><b>03</b><strong data-t="step3">Emportez votre setup</strong><p data-t="step3text">Exportez, modifiez, restaurez.</p></div></div>
+          <p class="micro" data-t="scope">L’autoexec réapplique les réglages à son exécution. Il ne verrouille pas les menus. Les données liées au compte ou au matériel sont conservées séparément.</p>
+        </div>
+        <div id="editor" hidden>
+          <div class="profile-bar"><label><span data-t="profileName">Nom du profil</span><input id="profile-name" maxlength="120"></label><label><span data-t="slot">Emplacement joueur</span><select id="slot"></select></label><div class="stats"><b id="setting-count">0</b><span data-t="savedValues">valeurs enregistrées</span></div><div class="stats"><b id="source-count">0</b><span data-t="sourceFiles">fichiers sources</span></div></div>
+          <nav id="tabs" class="tabs" aria-label="Settings categories"></nav>
+          <nav id="sections" class="sections" aria-label="Settings sections"></nav>
+          <div class="toolbar"><input id="search" type="search" placeholder="Rechercher un réglage, une commande…" aria-label="Search"><label><input id="modified-only" type="checkbox"><span data-t="modifiedOnly">Modifiés uniquement</span></label><span id="visible-count" class="micro"></span></div>
+          <div class="editor-grid"><div class="settings-panel"><div id="rows"></div></div><div class="inspector"><div class="eyebrow" data-t="inspection">DÉTAIL DU RÉGLAGE</div><h3 id="inspect-title" data-t="selectSetting">Sélectionnez un réglage</h3><p id="inspect-description" class="micro" data-t="inspectHint">Les valeurs proviennent des fichiers CS2. Les unités moteur sont conservées.</p><div id="inspect-data"></div><div id="crosshair-preview" hidden><div class="crosshair-scene"><i id="crosshair-shape">＋</i></div><p class="micro" data-t="crosshairHint">Aperçu schématique. Le rendu exact dépend du jeu.</p></div><div class="side-divider"></div><p class="micro" data-t="sourceHint">Les données non exportables restent dans le profil et les fichiers sources. Les valeurs vidéo et audio brutes évitent les conversions approximatives.</p></div></div>
+          <details class="source-summary"><summary id="source-summary-label"></summary><div id="source-list"></div><div id="warnings"></div></details>
+          <footer class="actions"><button id="reset" data-t="reset">Annuler les modifications</button><div><button id="preview" data-t="preview">Voir l’autoexec</button><button id="export" data-t="export">Exporter le pack</button><button id="install-preview" class="primary" data-t="install">Installer…</button></div></footer>
+        </div>
+      </section>
+      <section id="server-panel" hidden>
+        <div class="page-heading"><div><div class="eyebrow" data-t="serverEyebrow">VOTRE SERVEUR, VOS RÈGLES</div><h1 data-t="serverTitle">Préparer une session.</h1><p data-t="serverSubtitle">Des configurations serveur séparées de vos préférences joueur.</p></div></div>
+        <div class="server-grid"><div><div id="server-kinds" class="server-kinds"></div><p id="server-note" class="callout"></p><div id="server-rows"></div></div><div class="server-output"><div class="eyebrow" data-t="generatedConfig">CONFIGURATION GÉNÉRÉE</div><pre id="server-code"></pre><button id="server-export" class="primary full" data-t="exportServer">Exporter le pack serveur</button><p class="micro" data-t="serverLimits">Valeurs initiales modifiables, commandes vérifiées le 05/10/2026. Test en jeu à effectuer. Les chronomètres, checkpoints et modes communautaires exigent des cartes et plugins adaptés.</p><a href="https://github.com/KZGlobalTeam/cs2kz-metamod" data-t="kzLink">Documentation CS2KZ</a></div></div>
+      </section>
+      <div id="status" role="status" aria-live="polite"></div>
+    </main>
+  </div>
+  <dialog id="modal"><div class="modal-heading"><h2 id="modal-title"></h2><button id="close-modal" aria-label="Close">✕</button></div><div id="modal-content"></div><div class="modal-actions"><button id="cancel-modal" data-t="close">Fermer</button><button id="confirm-install" class="primary" hidden data-t="applyInstall">Installer et sauvegarder l’existant</button></div></dialog>
+  <script src="app.js"></script>
+</body>
+</html>

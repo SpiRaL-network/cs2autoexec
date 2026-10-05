@@ -1,152 +1,90 @@
-# CS2 Autoexec
+# CS2 Profile Studio
 
-A readable Counter-Strike 2 configuration with a local practice profile and an offline editor. SpiRaL’s settings are a starting point: adapt them to your hardware and preferences.
+**Your settings. Everywhere.** Capture the setup you already use in Counter-Strike 2, edit it in familiar settings categories, and keep a reusable profile, autoexec and video configuration.
 
-**English** · [Français](README.fr.md) · [Configuration editor](editor/index.html) · [Key reference](SCANCODES.md)
+**English** · [Français](README.fr.md) · [Download Windows application](https://github.com/SpiRaL-network/cs2autoexec/releases/latest) · [Changelog](CHANGELOG.md)
 
-| File | Purpose |
+![CS2 Profile Studio: local settings editor](docs/studio-preview.png)
+
+## Get started
+
+1. Download `CS2-Profile-Studio-3.0.0-windows-x64.zip`, extract the **whole folder**, and run `CS2 Profile Studio.exe`. Windows 10/11, x64; no Node.js installation needed.
+2. Configure your settings in CS2, then **close the game** so they are saved.
+3. Select the Steam account and game installation, then **Capture settings**. If detection fails, choose the Steam folder or import the source files manually.
+4. Review **Video, Audio, Game, Keyboard / mouse, Crosshair & scope**, and **Advanced data**. Save a `.cs2profile` or export a bundle.
+
+Everything works locally, without login, telemetry, cloud storage or automatic updates. The executable is unsigned. Admin rights are unnecessary when your Steam folders are writable.
+
+## Capture and edit
+
+Sources come from `Steam/userdata/<account>/730/local/cfg`:
+
+| Source | Contents |
 | :--- | :--- |
-| [`autoexec.cfg`](autoexec.cfg) | Sensitivity, networking, audio, HUD, crosshair and key bindings. |
-| [`pracc.cfg`](pracc.cfg) | Local practice server settings and grenade tools. |
-| [`editor/index.html`](editor/index.html) | An offline table for editing and exporting both configurations. |
-| [`install.bat`](install.bat) | Windows installer with Steam detection and backups of existing files. |
+| `cs2_user_convars_*_slot*.vcfg` | Player preferences, HUD, radar, crosshair and other settings. |
+| `cs2_user_keys_*_slot*.vcfg` | Keyboard/mouse bindings and saved analog axes. |
+| `cs2_machine_convars.vcfg` | Machine-level saved console preferences, including audio and FPS limits. |
+| `cs2_video.txt` | Display, resolution, refresh rate and graphics preferences. |
 
-![The offline configuration editor, with editable values and English/French support](docs/editor-preview.png)
+Every source is retained in full, including unknown and nested data. Keys such as `hud_scaling$3` and music settings ending in `$4` keep their versioned names in VCFG sources and use the actual command name in autoexec output. Select the player slot to export; other slots stay in the complete backup.
 
-## Customize
+The existing game `autoexec.cfg` is captured as `original-autoexec.cfg`. Its single-line alias definitions are included in the generated autoexec. Its other commands and `exec` dependencies remain separate for review. This backs up settings, not your entire Steam account, inventory, maps, launch options, GPU driver settings or all game files.
 
-### Start from your current CS2 setup
+Search by name/command, filter by category/section or modifications, edit values and supported enumerations, and reassign CS2 key names or scancodes. Duplicate keys and invalid numeric edits block export. Inspect source, raw and captured values; reset one row or all edits. Original bytes and edits are stored separately with checksums.
 
-Open the offline editor and select **Extract CS2 setup**. Close CS2 first so the selected files reflect its saved settings. Inside the Steam installation, open:
+Engine units are preserved. Audio values marked **GAIN** use the saved nonlinear gain; no approximate menu-percentage conversion is applied. Unsupported video values and device IDs stay visible as source data. The crosshair preview is schematic.
 
-```text
-userdata/<account>/730/local/cfg
-```
+## Export
 
-Select `cs2_user_convars_0_slot0.vcfg` and `cs2_user_keys_0_slot0.vcfg` together. Optionally include `cs2_machine_convars.vcfg` for machine-level console settings. Select files from the same account and user slot. If your active slot uses different numbers, select its matching pair of files.
+Each bundle contains:
 
-The editor generates an autoexec **from your saved settings and bindings alone**. It does not fill missing values with SpiRaL’s profile or add practice shortcuts. Named keys remain as saved; mouse axes are included when present. User values take precedence over machine values, regardless of selection order. The report shows omitted entries and repeated values, and tells you if a settings or key file is missing. Review the result, make any adjustments, then export `autoexec.cfg`.
+- `autoexec.cfg`: recognized archived player commands suitable for a portable CFG; no supplied player defaults or practice shortcuts.
+- `cs2_video.txt`, when captured: the complete edited video source, including its hardware/display values.
+- `profile.cs2profile`: reopen, edit, install and export again.
+- `raw-source/` and `edited-source/`: complete originals and files with your edits.
+- `manifest.json` with checksums and omission report, plus installation notes.
 
-This extracts saved console settings, rather than a complete game backup. Settings absent from the selected files remain absent. Keep definitions of custom aliases from your existing `.cfg` files separately: the saved key file may refer to them without containing their definitions. `cs2_video.txt` is not converted, and values requiring escaped quotes, backslashes or control characters are omitted with a report. Your game files are read only and stay on your computer.
+Development-only, protected, replicated, account/device-specific and unrepresentable CFG entries remain in the full sources. They are not silently discarded from the profile.
 
-### Start from the supplied profile or an existing .cfg
+For manual loading, copy the autoexec to `game/csgo/cfg`, enable the CS2 developer console and run `exec autoexec.cfg`. Use `+exec autoexec.cfg` in Steam launch options to request startup loading. An autoexec reapplies settings when executed; it **does not permanently lock** the game menus.
 
-**Use the editor:** [download the repository](https://github.com/SpiRaL-network/cs2autoexec/archive/refs/heads/main.zip), extract it, and open `editor/index.html` in your browser. GitHub’s file link displays the HTML source; open the application from the downloaded folder.
+## Install and restore
 
-Choose a language and a file. Search for a command or filter by category. Change a value, reassign a key, or disable a row. Review the preview, then select **Export .cfg**. You can also import an existing file: quoted values are editable, and other lines are preserved.
+Select the **destination** account and game installation, then **Install…**:
 
-The editor needs no installation, connection or account. Imports and edits stay in the page until it closes or reloads: export files to keep your changes. Validation checks syntax, not every value range or command’s availability in your game version. Duplicate commands or keys are flagged; later lines take precedence.
-
-**Use a text editor:** the tables in `autoexec.cfg` and `pracc.cfg` contain the actual commands executed by the game. Edit the quoted value. There is no second list of values to keep in sync.
-
-<!-- defaults:start -->
-| Profile setting | Value | Command |
-| :--- | :--- | :--- |
-| Mouse sensitivity | `1.1` | `sensitivity` |
-| Scoped sensitivity multiplier | `1.0` | `zoom_sensitivity_ratio` |
-| Maximum matchmaking ping (ms) | `25` | `mm_dedicated_search_maxping` |
-| HUD scale | `0.9` | `hud_scaling` |
-| Radar map zoom | `0.4` | `cl_radar_scale` |
-| Frametime warning threshold (ms) | `4.2` | `cl_hud_telemetry_frametime_poor` |
-<!-- defaults:end -->
-
-Sensitivity also depends on mouse DPI. A 25 ms matchmaking limit can restrict available regions. A 4.2 ms frametime threshold corresponds to about 238 FPS and may trigger frequent warnings. These values describe the supplied profile; they are not universal recommendations.
-
-## Install
-
-1. In Steam, open **CS2 → Manage → Browse local files**.
-2. Open `game/csgo/cfg`.
-3. Back up any existing files, then copy `autoexec.cfg` and `pracc.cfg` into that folder. If you used the editor, copy the exported files.
-
-On Windows, `install.bat` finds the game folder across Steam libraries and copies the two `.cfg` files beside the script. It backs up existing destination files in a timestamped subfolder before replacing them. Administrator rights are not required. To install your exports with this script, first replace the `.cfg` files in the downloaded folder.
-
-On Linux, use the manual installation through Steam’s game folder. The editor works in a modern browser on either system.
-
-## Load in CS2
-
-Enable **Settings → Game → Enable Developer Console**. In the console, run:
-
-```text
-exec autoexec.cfg
-```
-
-To explicitly request loading at each startup, add `+exec autoexec.cfg` to Steam’s launch options. CS2 may also load a file named `autoexec.cfg` automatically from its `cfg` folder: removing the launch option does not guarantee one-time loading. For a manual-only profile, rename it to `personal.cfg` and use `exec personal.cfg`.
-
-Reload the file after editing it. Settings saved by the game may persist; loading a configuration does not automatically restore your previous profile afterwards. `host_writeconfig` is an optional console command you can run yourself to save game settings.
-
-## Key bindings
-
-Scancodes identify **physical positions**, including WASD on US QWERTY and ZQSD on French AZERTY. Printed labels can differ on other layouts. Keys not assigned by this profile retain their existing game bindings.
-
-<!-- bindings:start -->
-| Action | QWERTY | AZERTY | Config key |
-| :--- | :--- | :--- | :--- |
-| Quick knife switch | C | C | `scancode6` |
-| Move forward | W | Z | `scancode26` |
-| Move backward | S | S | `scancode22` |
-| Strafe left | A | Q | `scancode4` |
-| Strafe right | D | D | `scancode7` |
-| Jump | Space | Espace | `scancode44` |
-| Crouch | Left Ctrl | Ctrl gauche | `scancode224` |
-| Walk | Left Shift | Maj gauche | `scancode225` |
-| Primary fire | MOUSE1 | MOUSE1 | `MOUSE1` |
-| Secondary fire | MOUSE2 | MOUSE2 | `MOUSE2` |
-| Drop current weapon | MOUSE4 | MOUSE4 | `MOUSE4` |
-| Switch to previous weapon | MOUSE5 | MOUSE5 | `MOUSE5` |
-| Jump via mouse wheel up | MWHEELUP | MWHEELUP | `MWHEELUP` |
-| Jump via mouse wheel down | MWHEELDOWN | MWHEELDOWN | `MWHEELDOWN` |
-| Select flashbang | Q | A | `scancode20` |
-| Select smoke grenade | F | F | `scancode9` |
-| Select HE grenade | V | V | `scancode25` |
-| Select molotov/incendiary | MOUSE3 | MOUSE3 | `MOUSE3` |
-| Use / interact | E | E | `scancode8` |
-| Reload weapon | R | R | `scancode21` |
-| Open buy menu | B | B | `scancode5` |
-| Open team selection menu | M | , | `scancode16` |
-| Contextual ping | Left Alt | Alt gauche | `scancode226` |
-| Inspect weapon | G | G | `scancode10` |
-| Switch weapon hand | X | X | `scancode27` |
-| Open spray menu | Delete | Suppr | `scancode76` |
-| Push-to-talk voice chat | T | T | `scancode23` |
-| All text chat | Y | Y | `scancode28` |
-| Team text chat | U | U | `scancode24` |
-| Radio menu | Z | W | `scancode29` |
-| Radio commands (ISO key) | ISO \ | ISO < | `scancode100` |
-| Execute autobuy preset | F1 | F1 | `scancode58` |
-| Rebuy last purchase | F2 | F2 | `scancode59` |
-| Vote YES | F3 | F3 | `scancode60` |
-| Vote NO | F4 | F4 | `scancode61` |
-| Load practice config | F11 | F11 | `scancode68` |
-| Toggle developer console | F9 | F9 | `scancode66` |
-| Toggle radar zoom | Caps Lock | Verr. Maj | `scancode57` |
-<!-- bindings:end -->
-
-`Mouse4` and `Mouse5` require side buttons. If your mouse lacks them, reassign **drop** and **lastinv** to available keyboard keys. `scancode100` is the extra ISO keyboard key, absent on US ANSI boards; disable or reassign it. The editor supports these changes, and [SCANCODES.md](SCANCODES.md) provides the full reference.
-
-## Local practice
-
-Open a local map, then press **F11** or run `exec pracc.cfg`. The file sets $60,000 starting money, buying anywhere, 60-minute rounds, respawn for both teams, ammunition without reloading, grenade previews and bullet impacts. It removes bots and requests a round restart after one second.
-
-| Key | Action |
+| Mode | Behavior |
 | :--- | :--- |
-| F5 | Toggle free flight (`noclip`). |
-| F6 | Rethrow the last grenade. |
-| F7 | Add and place a bot at the crosshair. |
+| Portable settings | Installs autoexec and merges recognized graphics preferences into the target video file. Keeps target GPU identity, hardware tuning, display, resolution and refresh rate. Display preferences can be transferred explicitly. Launch CS2 once on a new target account to create its video file. |
+| Full source restore | Installs all captured/edited VCFG and video sources plus autoexec. Intended for the same PC; includes machine/account preferences. |
 
-`sv_infinite_ammo "1"` supplies ammunition without reloading; use `"2"` to retain reloading. Automatic bunnyhopping changes movement compared with competitive servers. Air acceleration is left unchanged. `god "1"` requests invulnerability; its availability and effect depend on the game. The practice file does not create a server and requires server control to change protected settings. Reload a map or start a normal session to leave this environment.
+Both modes preview the exact files, back up existing files, and stop if a target changed after preview. **Undo installation** restores the last backup and removes files created by the installation. It stops if installed files changed afterwards. Backups remain in `%APPDATA%/cs2-profile-studio/backups`.
 
-## Maintenance
+CS2 must be closed. Steam Cloud can synchronize a different copy on the next launch; review any conflict. The game folder's autoexec is shared by accounts using that installation. Portable mode does not apply every source-only preference: keep the complete profile for recovery.
 
-The root `.cfg` files are the source of truth for the supplied profile. After changing them, regenerate the editor’s embedded values and documentation tables with Node.js 18 or later:
+## Server configurations
+
+The separate **Servers & practice** workspace generates editable CFG bundles for local practice and vanilla surf, bunnyhop and KZ movement sandboxes. Commands/ranges are checked against the CS2 catalogue dated **2026-10-05**. Gameplay values are starting points, not league or community rulesets, and have not been play-tested inside CS2.
+
+KZ exports also include a separate configuration derived from [CS2KZ upstream](https://github.com/KZGlobalTeam/cs2kz-metamod/blob/master/cfg/cs2kz.cfg), with setup notes. A complete KZ server needs [CS2KZ](https://github.com/KZGlobalTeam/cs2kz-metamod), Metamod and its documented dependencies. Let the plugin control its movement mode; do not combine its config with the vanilla KZ sandbox. Surf/bhop timers and checkpoints likewise require suitable maps and plugins.
+
+The application generates files; it does not deploy plugins, host a server or configure networking. Load a suitable map on your own server, then execute the exported CFG as described in its README.
+
+## Development
+
+Node.js **22.12+**, npm and Windows for the desktop smoke test / release build:
 
 ```sh
-node tools/sync-editor.js
-node --test tests/*.test.js
-node tools/sync-editor.js --check
+npm ci
+npm test
+npm start
+npm run test:ui
+npm run dist
 ```
 
-Checks cover synchronization, import/export and syntax; they do not launch CS2. Commands can change with game updates. Old development-only audio commands have been removed from the active profile. See [CHANGELOG.md](CHANGELOG.md).
+Tests cover complete source preservation, versioned keys, edits, slots, rebinding, video merging, export, transactional installation and guarded rollback. The Electron smoke test uses synthetic Steam/game folders, never your real CS2 installation. CI runs core tests on Linux/Windows and the desktop test on Windows.
 
-## Project
+Menu/control metadata is derived from [GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2/tree/master/game/csgo/pak01_dir/panorama/layout/settings) and its command dump. No original game artwork or menu XML is shipped. Refresh the catalogue with [tools/generate-catalog.py](tools/generate-catalog.py). Commands and file formats can change with game updates.
 
-An independent project by [SpiRaL](https://steamcommunity.com/id/theogspiral), available under the [MIT license](LICENSE). Not affiliated with Valve. These files use the game console; protected practice commands require `sv_cheats` and server control. This configuration is not a Valve certification.
+Original presets, script installer and browser editor remain available: [legacy guide](docs/legacy-en.md), [`autoexec.cfg`](autoexec.cfg), [`pracc.cfg`](pracc.cfg), [`editor/index.html`](editor/index.html), [key reference](SCANCODES.md). They are independent of captured desktop profiles.
+
+Independent project by SpiRaL, [MIT license](LICENSE), not affiliated with Valve. Third-party runtime notices are included in the Windows distribution.

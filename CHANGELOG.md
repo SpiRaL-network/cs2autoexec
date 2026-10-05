@@ -1,5 +1,14 @@
 # Changelog
 
+## v3.0.0 — 2026-10-05
+
+- Added CS2 Profile Studio: offline Windows app, Steam account/library detection, manual source import and familiar settings categories.
+- Complete VCFG/video capture with original bytes, unknown/nested data, versioned keys, player slots, reusable profiles, source inspection and export manifests.
+- Added value editing, key reassignment, filters, reset, bilingual UI and portable autoexec generation without injected presets.
+- Added video editing, hardware-preserving portable merging, full source restoration, preview, automatic backups, atomic replacement, failure recovery and guarded rollback.
+- Added separate practice and vanilla surf/bhop/KZ configurations, plus an upstream-derived CS2KZ plugin CFG and setup notes. Plugin deployment and in-game validation are outside this release.
+- Added core restore tests and an isolated Electron smoke test. Front-page documentation now describes the app; original presets/browser editor remain in the legacy guides.
+
 ## 2026-10-05
 
 - Replaced duplicated overview comments with executable, aligned configuration tables and English/French descriptions. Removed a repeated spectator crosshair setting.
